@@ -9,6 +9,9 @@ module.exports = {
     ],
 
     theme: {
+        container: {
+            center: true,
+        },
         extend: {
             fontFamily: {
                 sans: ['Source Serif Pro', ...defaultTheme.fontFamily.sans],
