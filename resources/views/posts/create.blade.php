@@ -37,9 +37,9 @@
                 @endif
 
                 <div class="my-3">
-                    <x-label for="file" :value="__('Gambar')"/>
+                    <x-label for="filename" :value="__('Gambar')"/>
 
-                    <input type="file" name="file" id="file" class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 text-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                    <input type="file" name="filename" id="filename" class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 text-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
                 <div>

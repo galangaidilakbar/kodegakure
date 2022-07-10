@@ -74,7 +74,7 @@
 
                 <!-- Card image -->
                 <div class="image-posts mt-3">
-                    <img class="object-cover" src="{{ asset('storage/images/'.$post->file_path) }}" alt="{{ $post->file_path }}">
+                    <img class="object-cover" src="{{ asset('storage/images/'.$post->filename) }}" alt="{{ $post->filename }}">
                 </div>
 
                 <!-- Card Utilities -->

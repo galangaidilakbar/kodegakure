@@ -36,16 +36,16 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => ['required', 'image'],
+            'filename' => ['required', 'image'],
             'description' => ['required', 'string']
         ]);
 
-        $file = $request->file('file');
+        $file = $request->file('filename');
         $filename = $file->hashName();
         $file->storeAs('public/images', $filename);
 
         Post::create([
-            'file_path' => $filename,
+            'filename' => $filename,
             'description' => $request->input('description')
         ]);
 
