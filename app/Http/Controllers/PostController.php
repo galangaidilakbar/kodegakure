@@ -71,7 +71,7 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        return view('posts.edit', ['post' => $post]);
     }
 
     /**
@@ -83,7 +83,13 @@ class PostController extends Controller
      */
     public function update(Request $request, Post $post)
     {
-        //
+        $request->validate([
+            'description' => ['required', 'string']
+        ]);
+
+        $post->update($request->only('description'));
+
+        return to_route('index');
     }
 
     /**

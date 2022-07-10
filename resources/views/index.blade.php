@@ -23,8 +23,9 @@
 
             <div class="hidden">
                 <a href="{{ route('posts.create') }}" class="hover:text-blue-600">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                     </svg>
                 </a>
             </div>
@@ -52,37 +53,66 @@
     <!-- Main -->
     <main class="main-content container mt-6 max-w-lg">
         @foreach($posts as $post)
-            <div class="kage-content lg:max-w-lg lg:border rounded-lg mb-3" id="post_{{ $post->id }}">
+            <div class="kage-content relative lg:max-w-lg lg:border rounded-lg mb-3" id="post_{{ $post->id }}">
                 <!-- Card Header -->
-                <div class="flex justify-between items-center px-4 py-1">
-                    <div class="flex space-x-1 items-center">
-                        <img class="w-14 h-14 rounded-full"
-                             src="{{ asset('MgLSVWnD_400x400.jpeg') }}"
-                             alt="Profile picture">
-                        <p class="text-sm font-semibold">Galang Aidil Akbar
-                            <span class="block text-xs text-gray-500">{{ $post->created_at->diffForHumans() }}</span>
-                        </p>
+                <div x-data="{trigger: false}">
+                    <div class="flex justify-between items-center px-4 py-1">
+                        <div class="flex space-x-1 items-center">
+                            <img class="w-14 h-14 rounded-full"
+                                 src="{{ asset('MgLSVWnD_400x400.jpeg') }}"
+                                 alt="Profile picture">
+                            <p class="text-sm font-semibold">Galang Aidil Akbar
+                                <span
+                                    class="block text-xs text-gray-500">{{ $post->created_at->diffForHumans() }}</span>
+                            </p>
+                        </div>
+                        <button @click="trigger = ! trigger">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
+                            </svg>
+                        </button>
                     </div>
-                    <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z"/>
-                        </svg>
-                    </button>
+
+                    <!-- Dropdown menu -->
+                    <div x-show="trigger" @click.outside="trigger = false"
+                         class="absolute z-10 top-14 right-4 bg-white divide-y divide-gray-100 rounded shadow w-44">
+                        <div class="px-4 py-3 text-sm text-gray-900">
+                            <div>Galang Aidil Akbar</div>
+                            <div class="font-medium truncate">galangaidilakbar@kodegakure.com</div>
+                        </div>
+                        <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
+                            <li>
+                                <a href="{{ route('posts.edit', $post->id) }}" class="block px-4 py-2 hover:bg-gray-100">Edit</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+                            </li>
+                            <li>
+                                <a href="#" class="block px-4 py-2 hover:bg-gray-100">Earnings</a>
+                            </li>
+                        </ul>
+                        <div class="py-1">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Card image -->
-                <div class="image-posts mt-3">
-                    <img class="object-cover" src="{{ asset('storage/images/'.$post->filename) }}" alt="{{ $post->filename }}">
+                <div class="mt-3">
+                    <img class="object-cover" src="{{ asset('storage/images/'.$post->filename) }}"
+                         alt="{{ $post->filename }}">
                 </div>
 
                 <!-- Card Utilities -->
                 <div class="flex justify-between items-center px-4 py-1 mt-3">
                     <div class="flex space-x-1 items-center">
                         <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                                 stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
                             </svg>
                         </button>
                         <button>
@@ -138,9 +168,11 @@
                         </svg>
                         <span>Search</span>
                     </div>
-                    <div id="create" class="cursor-pointer flex flex-col justify-center items-center hover:text-blue-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    <div id="create"
+                         class="cursor-pointer flex flex-col justify-center items-center hover:text-blue-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                             stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/>
                         </svg>
                         <span>Baru</span>
                     </div>
