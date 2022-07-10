@@ -41,8 +41,8 @@ class PostController extends Controller
         ]);
 
         $file = $request->file('file');
-        $filename = date('YmdHi').$file->getClientOriginalName();
-        $file->move(public_path('images'), $filename);
+        $filename = $file->hashName();
+        $file->storeAs('public/images', $filename);
 
         Post::create([
             'file_path' => $filename,

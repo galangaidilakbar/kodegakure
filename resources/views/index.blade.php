@@ -57,8 +57,8 @@
                 <div class="flex justify-between items-center px-4 py-1">
                     <div class="flex space-x-1 items-center">
                         <img class="w-14 h-14 rounded-full"
-                             src="{{ asset('images/profile.jpeg') }}"
-                             alt="Galang aidil akbar profile picture">
+                             src="{{ asset('MgLSVWnD_400x400.jpeg') }}"
+                             alt="Profile picture">
                         <p class="text-sm font-semibold">Galang Aidil Akbar
                             <span class="block text-xs text-gray-500">{{ $post->created_at->diffForHumans() }}</span>
                         </p>
@@ -74,7 +74,7 @@
 
                 <!-- Card image -->
                 <div class="image-posts mt-3">
-                    <img class="object-cover" src="{{ asset('images/'. $post->file_path) }}" alt="code sample">
+                    <img class="object-cover" src="{{ asset('storage/images/'.$post->file_path) }}" alt="{{ $post->file_path }}">
                 </div>
 
                 <!-- Card Utilities -->
