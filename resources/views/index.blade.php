@@ -144,8 +144,9 @@
                 </div>
 
                 <!-- Card text -->
-                <div class="px-4 my-3">
-                    <p>{{ $post->description }}</p>
+                <div class="px-4 my-3 w-56 flex space-x-1">
+                    <p class="truncate">{{ $post->description }}</p>
+                    <p class="text-gray-500 cursor-pointer" onclick="show('{{ route('posts.show', $post->id) }}')">more</p>
                 </div>
             </div>
         @endforeach
@@ -231,6 +232,11 @@
 
         $(".kage-content").last().addClass('pb-20 lg:pb-0')
     })
+
+    function show(id)
+    {
+        window.location.href = id
+    }
 </script>
 </body>
 </html>
