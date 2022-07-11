@@ -80,7 +80,7 @@
                          class="absolute z-10 top-14 right-4 bg-white divide-y divide-gray-100 rounded shadow w-44">
                         <div class="px-4 py-3 text-sm text-gray-900">
                             <div>Galang Aidil Akbar</div>
-                            <div class="font-medium truncate">galangaidilakbar@kodegakure.com</div>
+                            <div class="font-medium truncate">hokage@kodegakure.com</div>
                         </div>
                         <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
                             <li>
@@ -94,7 +94,11 @@
                             </li>
                         </ul>
                         <div class="py-1">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Sign out</a>
+                            <form action="{{ route('posts.destroy', $post->id) }}" method="post">
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-100" onclick="return confirm('are u sure?')">Delete</button>
+                            </form>
                         </div>
                     </div>
                 </div>
