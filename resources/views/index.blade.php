@@ -13,6 +13,14 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.3/font/bootstrap-icons.css">
 </head>
 <body>
 <div class="font-sans text-gray-900 antialiased">
@@ -51,7 +59,7 @@
     </div>
 
     <!-- Main -->
-    <main class="main-content container mt-6 max-w-lg">
+    <main class="container mt-6 max-w-lg">
         @foreach($posts as $post)
             <div class="kage-content relative lg:max-w-lg lg:border rounded-lg mb-3" id="post_{{ $post->id }}">
                 <!-- Card Header -->
@@ -76,7 +84,7 @@
                     </div>
 
                     <!-- Dropdown menu -->
-                    <div x-show="trigger" @click.outside="trigger = false"
+                    <div x-show="trigger" @click.outside="trigger = false" x-cloak
                          class="absolute z-10 top-14 right-4 bg-white divide-y divide-gray-100 rounded shadow w-44">
                         <div class="px-4 py-3 text-sm text-gray-900">
                             <div>Galang Aidil Akbar</div>
@@ -84,7 +92,8 @@
                         </div>
                         <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
                             <li>
-                                <a href="{{ route('posts.edit', $post->id) }}" class="block px-4 py-2 hover:bg-gray-100">Edit</a>
+                                <a href="{{ route('posts.edit', $post->id) }}"
+                                   class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                             </li>
                             <li>
                                 <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
@@ -97,7 +106,10 @@
                             <form action="{{ route('posts.destroy', $post->id) }}" method="post">
                                 @csrf
                                 @method('delete')
-                                <button type="submit" class="block w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-100" onclick="return confirm('are u sure?')">Delete</button>
+                                <button type="submit"
+                                        class="block w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-100"
+                                        onclick="return confirm('are u sure?')">Delete
+                                </button>
                             </form>
                         </div>
                     </div>
@@ -110,43 +122,39 @@
                 </div>
 
                 <!-- Card Utilities -->
-                <div class="flex justify-between items-center px-4 py-1 mt-3">
+                <div class="flex justify-between items-center px-4 py-1 mt-3" x-data='{icons: {
+                        fill: {
+                            love: `<i class="bi bi-heart-fill text-red-500"></i>`,
+                            bookmark: `<i class="bi bi-bookmark-fill text-blue-500"></i>`
+                        },
+                        outline: {
+                            love: `<i class="bi bi-heart"></i>`,
+                            bookmark: `<i class="bi bi-bookmark"></i>`
+                        }
+                    }, love: false, bookmark: false}'>
                     <div class="flex space-x-1 items-center">
-                        <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/>
-                            </svg>
+                        <button @click="love = ! love">
+                            <span x-show="! love" x-html="icons.outline.love"></span>
+                            <span x-show="love" x-html="icons.fill.love"></span>
                         </button>
                         <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
-                            </svg>
+                            <i class="bi bi-chat"></i>
                         </button>
                         <button>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                                 stroke="currentColor" stroke-width="2">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                      d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
-                            </svg>
+                            <i class="bi bi-share"></i>
                         </button>
                     </div>
-                    <button>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
-                        </svg>
+                    <button @click="bookmark = ! bookmark">
+                        <span x-show="! bookmark" x-html="icons.outline.bookmark"></span>
+                        <span x-show="bookmark" x-html="icons.fill.bookmark"></span>
                     </button>
                 </div>
 
                 <!-- Card text -->
                 <div class="px-4 my-3 w-56 flex space-x-1">
                     <p class="truncate">{{ $post->description }}</p>
-                    <p class="text-gray-500 cursor-pointer" onclick="show('{{ route('posts.show', $post->id) }}')">more</p>
+                    <p class="text-gray-500 cursor-pointer" onclick="show('{{ route('posts.show', $post->id) }}')">
+                        more</p>
                 </div>
             </div>
         @endforeach
@@ -233,8 +241,7 @@
         $(".kage-content").last().addClass('pb-20 lg:pb-0')
     })
 
-    function show(id)
-    {
+    function show(id) {
         window.location.href = id
     }
 </script>
