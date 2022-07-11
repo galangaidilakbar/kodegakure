@@ -92,7 +92,7 @@
                         </div>
                         <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
                             <li>
-                                <a href="{{ route('posts.edit', $post->id) }}"
+                                <a href="{{ route('posts.edit', $post->slug) }}"
                                    class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                             </li>
                             <li>
@@ -103,7 +103,7 @@
                             </li>
                         </ul>
                         <div class="py-1">
-                            <form action="{{ route('posts.destroy', $post->id) }}" method="post">
+                            <form action="{{ route('posts.destroy', $post->slug) }}" method="post">
                                 @csrf
                                 @method('delete')
                                 <button type="submit"
@@ -122,38 +122,43 @@
                 </div>
 
                 <!-- Card Utilities -->
-                <div class="flex justify-between items-center px-4 py-1 mt-3" x-data='{icons: {
-                        fill: {
-                            love: `<i class="bi bi-heart-fill text-red-500"></i>`,
-                            bookmark: `<i class="bi bi-bookmark-fill text-blue-500"></i>`
-                        },
-                        outline: {
-                            love: `<i class="bi bi-heart"></i>`,
-                            bookmark: `<i class="bi bi-bookmark"></i>`
-                        }
-                    }, love: false, bookmark: false}'>
-                    <div class="flex space-x-3 items-center">
-                        <button @click="love = ! love">
-                            <span x-show="! love" x-html="icons.outline.love"></span>
-                            <span x-show="love" x-html="icons.fill.love"></span>
-                        </button>
-                        <button>
-                            <i class="bi bi-chat"></i>
-                        </button>
-                        <button>
-                            <i class="bi bi-share"></i>
+                <div x-data='{icons: {
+                                        fill: {
+                                            love: `<i class="bi bi-heart-fill text-red-500"></i>`,
+                                            bookmark: `<i class="bi bi-bookmark-fill text-blue-500"></i>`
+                                        },
+                                        outline: {
+                                            love: `<i class="bi bi-heart"></i>`,
+                                            bookmark: `<i class="bi bi-bookmark"></i>`
+                                        }
+                                    }, love: false, bookmark: false, likes: 16}'>
+                    <div class="flex justify-between items-center px-4 py-1 mt-3">
+                        <div class="flex space-x-3 items-center">
+                            <button @click="love = ! love; likes++">
+                                <span x-show="! love" x-html="icons.outline.love"></span>
+                                <span x-show="love" x-html="icons.fill.love"></span>
+                            </button>
+                            <button>
+                                <i class="bi bi-chat"></i>
+                            </button>
+                            <button>
+                                <i class="bi bi-share"></i>
+                            </button>
+                        </div>
+                        <button @click="bookmark = ! bookmark">
+                            <span x-show="! bookmark" x-html="icons.outline.bookmark"></span>
+                            <span x-show="bookmark" x-html="icons.fill.bookmark"></span>
                         </button>
                     </div>
-                    <button @click="bookmark = ! bookmark">
-                        <span x-show="! bookmark" x-html="icons.outline.bookmark"></span>
-                        <span x-show="bookmark" x-html="icons.fill.bookmark"></span>
-                    </button>
-                </div>
 
-                <!-- Card text -->
+                    <!-- Card text -->
+                    <div class="px-4 font-semibold">
+                        <span x-text="likes"></span> likes
+                    </div>
+                </div>
                 <div class="px-4 my-3 w-56 flex space-x-1">
                     <p class="truncate">{{ $post->description }}</p>
-                    <p class="text-gray-500 cursor-pointer" onclick="show('{{ route('posts.show', $post->id) }}')">
+                    <p class="text-gray-500 cursor-pointer" onclick="show('{{ route('posts.show', $post->slug) }}')">
                         more</p>
                 </div>
             </div>
@@ -166,10 +171,10 @@
             <div class="container">
                 <div class="flex justify-between items-center px-4 py-4 text-sm">
                     <div class="flex flex-col justify-center items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                             stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                  d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 20 20"
+                             fill="currentColor">
+                            <path
+                                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
                         </svg>
                         <span>Home</span>
                     </div>

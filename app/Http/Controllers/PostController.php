@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
@@ -38,7 +39,7 @@ class PostController extends Controller
     {
         $request->validate([
             'filename' => ['required', 'image'],
-            'description' => ['required', 'string']
+            'description' => ['string']
         ]);
 
         $file = $request->file('filename');
@@ -46,6 +47,7 @@ class PostController extends Controller
         $file->storeAs('public/images', $filename);
 
         Post::create([
+            'slug' => Str::random(7),
             'filename' => $filename,
             'description' => $request->input('description')
         ]);

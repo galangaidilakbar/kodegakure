@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <form action="{{ route('posts.update', $post->id) }}" method="post">
+    <form action="{{ route('posts.update', $post->slug) }}" method="post">
         @csrf
         @method('put')
 
