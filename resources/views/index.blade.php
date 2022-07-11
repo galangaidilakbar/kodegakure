@@ -132,7 +132,7 @@
                             bookmark: `<i class="bi bi-bookmark"></i>`
                         }
                     }, love: false, bookmark: false}'>
-                    <div class="flex space-x-1 items-center">
+                    <div class="flex space-x-3 items-center">
                         <button @click="love = ! love">
                             <span x-show="! love" x-html="icons.outline.love"></span>
                             <span x-show="love" x-html="icons.fill.love"></span>
