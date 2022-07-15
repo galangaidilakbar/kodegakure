@@ -103,8 +103,8 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        $post->delete();
+//        $post->delete();
         Storage::delete('public/images/'.$post->filename);
-        return to_route('index');
+        return $post->delete();
     }
 }
