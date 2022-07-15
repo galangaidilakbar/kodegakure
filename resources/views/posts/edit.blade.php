@@ -9,7 +9,7 @@
             <div class="max-w-lg mx-auto">
 
                 @if($errors->any())
-                    <div class="bg-red-100 text-red-700 py-2 px-4 rounded-lg">
+                    <div class="mx-4 bg-red-100 text-red-700 py-2 px-4 rounded-lg">
                         <span class="font-semibold">
                             Oupss! We can process ur request because:
                         </span>
@@ -29,7 +29,7 @@
                 <div class="px-4 lg:px-0">
                     <x-label for="description" :value="__('Description')"/>
 
-                    <textarea id="description" name="description" rows="4" class="mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Leave a comment...">{{ $post->description }}</textarea>
+                    <textarea id="description" name="description" rows="4" class="mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add description...">{{ $post->description }}</textarea>
                 </div>
             </div>
         </main>
