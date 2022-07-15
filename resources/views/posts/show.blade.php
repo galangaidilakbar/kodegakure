@@ -1,13 +1,12 @@
 <x-guest-layout>
     <div class="container max-w-lg">
-        <div class="flex justify-between items-center mb-3 px-4 lg:px-0 py-2.5">
-            <a href="/">
-                <i class="bi bi-arrow-left"></i>
+        <div class="flex justify-start items-center space-x-4 mb-3 px-4 lg:px-0 py-2.5">
+            <a href="{{ route('index') }}">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
             </a>
-            <a href="/" class="font-semibold text-2xl">{{ config('app.name') }}</a>
-            <button>
-                <i class="bi bi-upload"></i>
-            </button>
+            <span class="font-semibold text-xl">{{ config('app.name') }}</span>
         </div>
 
         <div class="my-3">
@@ -15,7 +14,7 @@
                  alt="{{ $post->filename }}">
         </div>
 
-        <div class="px-4 lg:px-0 my-3 selection:bg-fuchsia-300 selection:text-fuchsia-900">
+        <div class="px-4 py-2.5 my-3 selection:bg-fuchsia-300 selection:text-fuchsia-900">
             <p>{{ $post->description }}</p>
         </div>
     </div>
