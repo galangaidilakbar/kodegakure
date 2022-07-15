@@ -38,7 +38,7 @@
                 function postHeader(slug) {
                     return `
                             <div class="relative">
-                                <div class="flex justify-between items-center px-4 py-1">
+                                <div class="flex justify-between items-center px-4 py-3">
                                     <div class="flex space-x-1 items-center">
                                         <img src="${PROFILE_PICTURE_URL}" alt="Hokage" class="w-14 h-14 rounded-full">
                                         <p class="text-sm font-semibold">Galang Aidil Akbar</p>

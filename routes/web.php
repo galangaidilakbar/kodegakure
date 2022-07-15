@@ -13,7 +13,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', \App\Http\Controllers\IndexController::class)->name('index');
+Route::get('/', function () {
+    return view('index');
+})->name('index');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
