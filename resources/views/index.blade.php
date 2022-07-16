@@ -1,5 +1,9 @@
 <x-main-layout>
-    <div id="app" class="container lg:my-1"></div>
+    <div id="app" class="container lg:my-1">
+        <div class="min-h-screen flex items-center justify-center">
+            <div class="border-8 border-gray-200 border-t-8 border-t-blue-500 rounded-full w-24 h-24 animate-spin"></div>
+        </div>
+    </div>
 
     @section('script')
         <script>
@@ -73,7 +77,7 @@
                 function postImage(filename) {
                     return `
                         <div class="my-3">
-                            <img class="object-cover mx-auto" src="${POST_IMAGE_URL + '/' + filename}" alt="${filename}" >
+                            <img class="object-cover max-w-full mx-auto" src="${POST_IMAGE_URL + '/' + filename}" alt="${filename}" >
                         </div>
                     `
                 }

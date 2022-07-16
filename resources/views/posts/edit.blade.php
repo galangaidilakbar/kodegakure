@@ -29,7 +29,7 @@
                 <div class="px-4 lg:px-0">
                     <x-label for="description" :value="__('Description')"/>
 
-                    <textarea id="description" name="description" rows="4" class="mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add description...">{{ $post->description }}</textarea>
+                    <textarea id="description" name="description" rows="4" class="resize-none mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add description...">{{ $post->description }}</textarea>
                 </div>
             </div>
         </main>
