@@ -29,6 +29,22 @@
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
 
+    <script>
+        $(document).ready(() => {
+            $("#lg_home").click(() => {
+                window.location.href = `{{ route('index') }}`
+            })
+
+            $("#lg_create").click(() => {
+                window.location.href = `{{ route('posts.create') }}`
+            })
+
+            $("#lg_github_profile").click(() => {
+                window.location.href = `https://github.com/Galangaidil`
+            })
+        })
+    </script>
+
     @yield('script')
 </body>
 
