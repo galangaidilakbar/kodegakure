@@ -36,7 +36,7 @@
             })
 
             $("#create").click(() => {
-                window.location.href = `{{ route('posts.create') }}`
+                {{--window.location.href = `{{ route('posts.create') }}`--}}
             })
 
             $("#lg_home").click(() => {
@@ -44,7 +44,7 @@
             })
 
             $("#lg_create").click(() => {
-                window.location.href = `{{ route('posts.create') }}`
+                {{--window.location.href = `{{ route('posts.create') }}`--}}
             })
 
             $("#lg_github_profile").click(() => {
