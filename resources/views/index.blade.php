@@ -77,10 +77,6 @@
             const CSRF_TOKEN = `{{ @csrf_token() }}`
 
             $(document).ready(() => {
-                $("#create").click(() => {
-                    window.location.href = `{{ route('posts.create') }}`
-                })
-
                 renderPosts()
 
                 async function index() {

@@ -31,6 +31,14 @@
 
     <script>
         $(document).ready(() => {
+            $("#home").click(() => {
+                window.location.href = `{{ route('index') }}`
+            })
+
+            $("#create").click(() => {
+                window.location.href = `{{ route('posts.create') }}`
+            })
+
             $("#lg_home").click(() => {
                 window.location.href = `{{ route('index') }}`
             })
