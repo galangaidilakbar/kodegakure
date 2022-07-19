@@ -103,7 +103,13 @@ class PostController extends Controller
 
         $post->update($request->only('description'));
 
-        return to_route('index');
+        $res = [
+            'status' => true,
+            'data' => $post,
+            'message' => 'post updated successfully'
+        ];
+
+        return response($res, 200);
     }
 
     /**

@@ -23,6 +23,10 @@ Route::get('/new', function () {
     return view('posts.create');
 })->name('create_post');
 
+Route::get('/posts/{post}/edit', [\App\Http\Controllers\PostController::class, 'edit']);
+
+Route::get('/posts/{post}', [\App\Http\Controllers\PostController::class, 'show']);
+
 
 
 

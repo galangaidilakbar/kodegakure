@@ -39,6 +39,12 @@
     <script>
         const endpoint = `{{ route('posts.index') }}`;
 
+        const token = window.localStorage.getItem('tokens')
+
+        if (token === null) {
+            $("#store").removeClass('bg-blue-500 hover:bg-blue-600').addClass('bg-gray-500 cursor-not-allowed')
+        }
+
         $('form').submit(event => {
             event.preventDefault();
 

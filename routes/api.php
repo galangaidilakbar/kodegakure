@@ -28,5 +28,9 @@ Route::post('/login', [\App\Http\Controllers\AuthController::class, 'store'])->n
 Route::middleware('auth:sanctum')->group(function (){
     Route::post('/posts', [\App\Http\Controllers\PostController::class, 'store']);
 
+    Route::put('/posts/{post}', [\App\Http\Controllers\PostController::class, 'update']);
+
+    Route::delete('/posts/{post}', [\App\Http\Controllers\PostController::class, 'destroy']);
+
     Route::post('/logout', [\App\Http\Controllers\AuthController::class, 'destroy'])->name('logout');
 });

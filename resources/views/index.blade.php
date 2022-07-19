@@ -75,6 +75,7 @@
             const POST_IMAGE_URL = '{{ asset('/storage/images/') }}'
             const POSTS_URL = `{{ route('posts.index') }}`
             const CSRF_TOKEN = `{{ @csrf_token() }}`
+            const POST_WEB_URL = `${window.location.href}posts`
 
             $(document).ready(() => {
                 renderPosts()
@@ -120,7 +121,7 @@
                                 <div id="kg_options_${slug}" class="hidden absolute z-10 top-14 right-8 bg-white divide-y divide-gray-100 rounded shadow-md w-44">
                                     <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
                                         <li>
-                                            <a href="${POSTS_URL+'/'+slug+'/edit'}"
+                                            <a href="${POST_WEB_URL+'/'+slug+'/edit'}"
                                                class="block px-4 py-2 hover:bg-gray-100">Edit</a>
                                         </li>
                                         <li>
@@ -181,7 +182,7 @@
             })
 
             function show(slug) {
-                window.location.href = POSTS_URL+'/'+slug
+                window.location.href = POST_WEB_URL+'/'+slug
             }
 
             function destroy(slug){
@@ -190,15 +191,16 @@
                         "Content-Type": "application/json",
                         "Accept": "application/json",
                         "X-Requested-With": "XMLHttpRequest",
-                        "X-CSRF-Token": CSRF_TOKEN
+                        "Authorization": `Bearer ${window.localStorage.getItem('tokens')}`
                     },
                     method: 'DELETE'
                 })
-                    .then(() => {
-                        $(`#post_number_${slug}`).remove()
-                    })
-                    .catch(error => {
-                        console.log(error)
+                    .then((response) => {
+                        if (response.status === 200){
+                            $(`#post_number_${slug}`).remove()
+                        } else{
+                            console.log(response.statusText)
+                        }
                     })
             }
 
