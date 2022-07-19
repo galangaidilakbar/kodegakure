@@ -30,13 +30,22 @@
     <script src="{{ asset('js/jquery.min.js') }}"></script>
 
     <script>
+        const token = window.localStorage.getItem('tokens');
+
+        if (token === null)
+        {
+            $("#lg_logout").hide()
+        } else {
+            $("#lg_login").hide()
+        }
+
         $(document).ready(() => {
             $("#home").click(() => {
                 window.location.href = `{{ route('index') }}`
             })
 
             $("#create").click(() => {
-                {{--window.location.href = `{{ route('posts.create') }}`--}}
+                window.location.href = `{{ route('create_post') }}`
             })
 
             $("#lg_home").click(() => {
@@ -44,11 +53,31 @@
             })
 
             $("#lg_create").click(() => {
-                {{--window.location.href = `{{ route('posts.create') }}`--}}
+                window.location.href = `{{ route('create_post') }}`
             })
 
             $("#lg_github_profile").click(() => {
                 window.location.href = `https://github.com/Galangaidil`
+            })
+
+            $("#lg_login").click(() => {
+                window.location.href = `{{ route('login') }}`
+            })
+
+            $("#lg_logout").click(() => {
+                let logout = `{{ route('logout') }}`
+
+                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+                axios.post(logout)
+                    .then(response => {
+                        $("#lg_logout").hide()
+                        window.localStorage.removeItem('tokens');
+                        window.location.href = `{{ route('index') }}`
+                    })
+                    .catch(error => {
+                        console.log(error.response)
+                    })
             })
         })
     </script>

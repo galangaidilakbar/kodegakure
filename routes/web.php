@@ -17,10 +17,25 @@ Route::get('/', function () {
     return view('index');
 })->name('index');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/login', [\App\Http\Controllers\AuthController::class, 'index'])->name('login');
 
-Route::resource('/posts', \App\Http\Controllers\PostController::class)->only(['index', 'show']);
+Route::get('/new', function () {
+    return view('posts.create');
+})->name('create_post');
 
-require __DIR__.'/auth.php';
+
+
+
+
+
+
+
+
+
+
+
+//require __DIR__.'/auth.php';
+
+//Route::get('/dashboard', function () {
+//    return view('dashboard');
+//})->middleware(['auth'])->name('dashboard');

@@ -6,15 +6,16 @@
             </a>
         </x-slot>
 
-        <!-- Session Status -->
-        <x-auth-session-status class="mb-4" :status="session('status')" />
+        <div id="error_message" class="hidden mb-3 bg-red-100 text-red-700 py-2 px-4 rounded-lg">
+            <span class="font-semibold">
+                Ouups! something when wrong,
+            </span>
+            <ul class="list-disc px-6">
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
+            </ul>
+        </div>
 
-        <form method="POST" action="{{ route('login') }}">
-            @csrf
-
+        <form>
             <!-- Email Address -->
             <div>
                 <x-label for="email" :value="__('Email')" />
@@ -53,4 +54,44 @@
             </div>
         </form>
     </x-auth-card>
+
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/axios.min.js') }}"></script>
+
+    <script>
+        const endpoint = `{{ route('authentication') }}`
+        let sanctumToken = ``
+
+        $('form').submit((event) => {
+            event.preventDefault();
+
+            const formData = new FormData;
+
+            formData.append('email', $("#email").val())
+            formData.append('password', $("#password").val())
+
+            const options = {
+                headers: {
+                    Accept: "application/json"
+                }
+            }
+
+            axios.post(endpoint, formData, options)
+                .then((response) => {
+                    sanctumToken = response.data
+                    window.localStorage.setItem('tokens', sanctumToken)
+
+                    window.setTimeout(() => {
+                        window.location.href = `{{ route('index') }}`
+                    }, 1000);
+                })
+                .catch((error) => {
+                    $("#error_message").toggleClass('hidden')
+                    const errorMessageElement = $("#error_message ul")
+                    errorMessageElement.html('')
+                    errorMessageElement.append(`<li>${error.response.data.message}</li>`)
+                })
+        })
+    </script>
+
 </x-guest-layout>

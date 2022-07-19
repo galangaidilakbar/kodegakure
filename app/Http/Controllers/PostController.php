@@ -14,9 +14,14 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): \Illuminate\Http\Response
     {
-        return response(['posts' => Post::latest()->get()], 200);
+        $res = [
+            'status' => true,
+            'data' => Post::latest()->get(),
+            'message' => 'enjoy the meat'
+        ];
+        return response($res, 200);
     }
 
     /**
@@ -35,7 +40,7 @@ class PostController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request): \Illuminate\Http\Response
     {
         $request->validate([
             'filename' => ['required', 'image'],
@@ -46,13 +51,19 @@ class PostController extends Controller
         $filename = $file->hashName();
         $file->storeAs('public/images', $filename);
 
-        Post::create([
+        $post = Post::create([
             'slug' => Str::random(7),
             'filename' => $filename,
             'description' => $request->input('description')
         ]);
 
-        return to_route('index');
+        $res = [
+            'status' => true,
+            'data' => $post,
+            'message' => 'post created successfully'
+        ];
+
+        return response($res, 201);
     }
 
     /**

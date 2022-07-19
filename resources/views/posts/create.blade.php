@@ -1,31 +1,31 @@
 <x-guest-layout>
-    <form action="{{ route('posts.store') }}" method="post" enctype="multipart/form-data">
+    <form>
         @csrf
 
         <x-top-navigations :header="__('Create Post')"></x-top-navigations>
 
-        <main class="container mt-3">
-            <div class="px-4 max-w-lg mx-auto lg:px-0">
+        <main class="container min-h-screen lg:my-5">
+            <div class="bg-white rounded px-4 py-2.5 max-w-lg mx-auto lg:border">
 
-                @if($errors->any())
-                    <div class="bg-red-100 text-red-700 py-2 px-4 rounded-lg">
-                        <span class="font-semibold">
-                            Oupss! We can process ur request because:
-                        </span>
-                        <ul class="list-disc px-6">
-                            @foreach($errors->all() as $error)
-                                <li>{{$error}}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+                <div id="error_message" class="hidden mb-3 bg-red-100 text-red-700 py-2 px-4 rounded-lg">
+                    <span class="font-semibold">
+                        Ouups! something when wrong,
+                    </span>
+                    <ul class="list-disc px-6">
 
-                <div class="my-3">
+                    </ul>
+                </div>
+
+                <div id="success_message" class="hidden bg-green-100 text-green-700 px-4 py-2 rounded-lg mb-3">
+                    <span class="capitalize"></span>
+                </div>
+
+                <div class="mb-3">
                     <x-label for="filename" :value="__('Image')"/>
                     <input type="file" name="filename" id="filename" class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 text-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
                 </div>
 
-                <div>
+                <div class="pb-3">
                     <x-label for="description" :value="__('Description')"/>
                     <textarea id="description" name="description" rows="4" class="resize-none mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add description..."></textarea>
                 </div>
@@ -34,11 +34,56 @@
     </form>
 
     <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/axios.min.js') }}"></script>
+
     <script>
-        $(document).ready(() => {
-            $("#store").click(() => {
-                $("#store").text('process')
+        const endpoint = `{{ route('posts.index') }}`;
+
+        $('form').submit(event => {
+            event.preventDefault();
+
+            const formData = new FormData;
+            formData.append('filename', $('#filename')[0].files[0]);
+            formData.append('description', $('#description').val());
+
+            const headers = {
+                'Content-Type': 'multipart/form-data',
+                'Accept' : 'application/json',
+                'Authorization': `Bearer ${window.localStorage.getItem('tokens')}`
+            };
+
+            axios.post(endpoint, formData, {
+                headers
             })
+                .then(response => {
+                    console.log(response)
+                    if (response.status === 201){
+                        $("#success_message").toggleClass('hidden')
+                        $("#success_message span").text(response.data.message)
+                        $('#filename').val('')
+                        $('#description').val('')
+
+                        window.setTimeout(() => {
+                            window.location.href = `{{ route('index') }}`
+                        }, 1000);
+                    }
+                })
+                .catch(error => {
+                    $("#error_message").toggleClass('hidden')
+
+                    if (error.response.status === 401){
+                        $("#error_message").html(`${error.response.statusText}`)
+                    }
+
+                    if ( error.response.status === 422) {
+                        $("#error_message ul").html(``)
+                        const errorMessage = error.response.data.errors
+                        Object.keys(errorMessage).forEach((key) => {
+                            const errors = errorMessage[key]
+                            $("#error_message ul").append(`<li>${errors}</li>`)
+                        })
+                    }
+                })
         })
     </script>
 </x-guest-layout>
