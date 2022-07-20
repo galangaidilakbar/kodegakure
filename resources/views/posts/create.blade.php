@@ -42,11 +42,15 @@
         const token = window.localStorage.getItem('tokens')
 
         if (token === null) {
-            $("#store").removeClass('bg-blue-500 hover:bg-blue-600').addClass('bg-gray-500 cursor-not-allowed')
+            $("#store").removeClass('bg-blue-500 hover:bg-blue-600').addClass('bg-gray-500 cursor-not-allowed').prop('disabled', true)
+            $('#filename').addClass('cursor-not-allowed').prop('disabled', true)
+            $('#description').addClass('cursor-not-allowed').prop('disabled', true)
         }
 
         $('form').submit(event => {
             event.preventDefault();
+
+            $("#store").addClass('cursor-not-allowed').prop('disabled', true)
 
             const formData = new FormData;
             formData.append('filename', $('#filename')[0].files[0]);
@@ -78,7 +82,7 @@
                     $("#error_message").toggleClass('hidden')
 
                     if (error.response.status === 401){
-                        $("#error_message").html(`${error.response.statusText}`)
+                        $("#error_message").html(`Unauthorized`)
                     }
 
                     if ( error.response.status === 422) {
@@ -89,6 +93,9 @@
                             $("#error_message ul").append(`<li>${errors}</li>`)
                         })
                     }
+                })
+                .finally(() => {
+                    $("#store").removeClass('cursor-not-allowed').prop('disabled', false)
                 })
         })
     </script>
