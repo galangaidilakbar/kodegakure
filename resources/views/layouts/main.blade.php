@@ -35,11 +35,16 @@
         if (token === null)
         {
             $("#lg_logout").hide()
+            $("#logout").hide()
         } else {
             $("#lg_login").hide()
+            $("#login").hide()
         }
 
         $(document).ready(() => {
+
+            // Responsive mobile menu
+
             $("#home").click(() => {
                 window.location.href = `{{ route('index') }}`
             })
@@ -47,6 +52,16 @@
             $("#create").click(() => {
                 window.location.href = `{{ route('create_post') }}`
             })
+
+            $("#login").click(() => {
+                window.location.href = `{{ route('login') }}`
+            })
+
+            $("#logout").click(() => {
+                logout()
+            })
+
+            // Desktop menu
 
             $("#lg_home").click(() => {
                 window.location.href = `{{ route('index') }}`
@@ -65,21 +80,26 @@
             })
 
             $("#lg_logout").click(() => {
-                let logout = `{{ route('logout') }}`
-
-                axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
-
-                axios.post(logout)
-                    .then(response => {
-                        $("#lg_logout").hide()
-                        window.localStorage.removeItem('tokens');
-                        window.location.href = `{{ route('index') }}`
-                    })
-                    .catch(error => {
-                        console.log(error.response)
-                    })
+                logout()
             })
         })
+
+        function logout()
+        {
+            let logout = `{{ route('logout') }}`
+
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`
+
+            axios.post(logout)
+                .then(response => {
+                    $("#lg_logout").hide()
+                    window.localStorage.removeItem('tokens');
+                    window.location.href = `{{ route('index') }}`
+                })
+                .catch(error => {
+                    console.log(error.response)
+                })
+        }
     </script>
 
     @yield('script')
