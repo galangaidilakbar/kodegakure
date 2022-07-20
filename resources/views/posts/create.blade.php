@@ -71,7 +71,6 @@
                 .then(response => {
                     console.log(response)
                     if (response.status === 201){
-                        $("#error_message").toggleClass('hidden')
                         $("#success_message span").text(response.data.message)
                         $('#filename').val('')
                         $('#description').val('')
