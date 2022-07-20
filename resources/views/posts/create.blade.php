@@ -22,12 +22,12 @@
 
                 <div class="mb-3">
                     <x-label for="filename" :value="__('Image')"/>
-                    <input type="file" name="filename" id="filename" class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 text-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500">
+                    <input type="file" name="filename" id="filename" class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 text-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500" required>
                 </div>
 
                 <div class="pb-3">
                     <x-label for="description" :value="__('Description')"/>
-                    <textarea id="description" name="description" rows="4" class="resize-none mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add description..."></textarea>
+                    <textarea id="description" name="description" rows="4" class="resize-none mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add description..." required></textarea>
                 </div>
             </div>
         </main>
@@ -52,6 +52,9 @@
 
             $("#store").addClass('cursor-not-allowed').prop('disabled', true)
 
+            $("#success_message").toggleClass('hidden')
+            $("#success_message span").text('Uploading...')
+
             const formData = new FormData;
             formData.append('filename', $('#filename')[0].files[0]);
             formData.append('description', $('#description').val());
@@ -68,7 +71,7 @@
                 .then(response => {
                     console.log(response)
                     if (response.status === 201){
-                        $("#success_message").toggleClass('hidden')
+                        $("#error_message").toggleClass('hidden')
                         $("#success_message span").text(response.data.message)
                         $('#filename').val('')
                         $('#description').val('')
@@ -79,6 +82,7 @@
                     }
                 })
                 .catch(error => {
+                    $("#success_message").toggleClass('hidden')
                     $("#error_message").toggleClass('hidden')
 
                     if (error.response.status === 401){
