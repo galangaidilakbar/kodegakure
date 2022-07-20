@@ -1,5 +1,6 @@
 <x-guest-layout>
-    @include('layouts.top-header')
+    <x-top-navigations :header="__('Kodegakure')"></x-top-navigations>
+
     <div class="container max-w-lg min-h-screen">
         <div class="bg-white rounded lg:border lg:my-5">
             <div>
@@ -11,13 +12,13 @@
                 </article>
             </div>
         </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-        <script>
-            let desc = `{!! $post->description !!}`
-            document.getElementById('content').innerHTML =
-                marked.parse(desc);
-        </script>
-
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script>
+        $("#store").text('Share')
+        let desc = `{!! $post->description !!}`
+        $('#content').html(marked.parse(desc))
+    </script>
 </x-guest-layout>
