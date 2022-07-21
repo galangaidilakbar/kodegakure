@@ -44,8 +44,10 @@ class PostController extends Controller
     {
         $request->validate([
             'user_id' => ['required'],
+            'title' => ['required', 'string'],
+            'summary' => ['string'],
             'filename' => ['required', 'image'],
-            'description' => ['string']
+            'description' => ['required', 'string']
         ]);
 
         $file = $request->file('filename');
@@ -54,7 +56,9 @@ class PostController extends Controller
 
         $post = Post::create([
             'user_id' => $request->input('user_id'),
-            'slug' => Str::random(7),
+            'title' => $request->input('title'),
+            'slug' => Str::of($request->input('title') . Str::random(7))->slug('-'),
+            'summary' => $request->input('summary'),
             'filename' => $filename,
             'description' => $request->input('description')
         ]);

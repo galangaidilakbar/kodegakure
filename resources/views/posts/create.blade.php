@@ -25,9 +25,19 @@
                     <input type="file" name="filename" id="filename" class="mt-1 block w-full border border-gray-300 rounded-lg p-2.5 text-sm bg-gray-50 focus:ring-blue-500 focus:border-blue-500" required>
                 </div>
 
+                <div class="mb-3">
+                    <x-label for="title" :value="__('Title')"/>
+                    <x-input id="title" class="block mt-1 w-full bg-gray-50" type="text" name="title" :value="old('title')" required />
+                </div>
+
+                <div class="mb-3">
+                    <x-label for="summary" :value="__('Summary')"/>
+                    <x-input id="summary" class="block mt-1 w-full bg-gray-50" type="text" name="summary" :value="old('summary')" required />
+                </div>
+
                 <div class="pb-3">
                     <x-label for="description" :value="__('Description')"/>
-                    <textarea id="description" name="description" rows="4" class="resize-none mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add description..." required></textarea>
+                    <textarea id="description" name="description" rows="6" class="resize-none mt-1 block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add description..." required></textarea>
                 </div>
             </div>
         </main>
@@ -50,14 +60,14 @@
 
         $('form').submit(event => {
             event.preventDefault();
-
             $("#store").addClass('cursor-not-allowed').prop('disabled', true)
-
             $("#success_message").toggleClass('hidden')
             $("#success_message span").text('Uploading...')
 
             const formData = new FormData;
             formData.append('user_id', user_id.id)
+            formData.append('title', $("#title").val())
+            formData.append('summary', $("#summary").val())
             formData.append('filename', $('#filename')[0].files[0]);
             formData.append('description', $('#description').val());
 

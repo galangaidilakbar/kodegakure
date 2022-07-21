@@ -3,13 +3,18 @@
 
     <div class="container max-w-lg min-h-screen">
         <div class="bg-white rounded lg:border lg:my-5">
-            <div>
-                <img class="object-cover lg:rounded" src="{{ asset('storage/images/' . $post->filename) }}"
-                    alt="{{ $post->filename }}">
+
+            <div class="mb-3 px-4 py-2.5">
+                <h1 id="title" class="prose mb-3"></h1>
+                <span class="text-sm text-gray-500" id="post_author_and_time_published"></span>
             </div>
-            <div class="px-4 py-2.5 my-3 selection:bg-fuchsia-300 selection:text-fuchsia-900">
-                <span class="text-sm text-gray-500" id="created_at"></span>
-                <article class="prose lg:prose-xl" id="content">
+
+            <div class="mb-3">
+                <img class="object-cover lg:rounded" src="{{ asset('storage/images/' . $post->filename) }}" alt="{{ $post->filename }}">
+            </div>
+
+            <div class="px-4 py-2.5 mb-3 selection:bg-fuchsia-300 selection:text-fuchsia-900">
+                <article class="prose" id="content">
                 </article>
             </div>
         </div>
@@ -18,12 +23,23 @@
     <script src="{{ asset('js/marked.min.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script>
+        // dynamically page title
+        document.title = `{{ $post->title }} - {{ config('app.name') }}`
+
+        // change text button store to share
         $("#store").text('Share')
+
+        // render post title
+        let title = `# {!! $post->title !!}`
+        $("#title").html(marked.parse(title))
+
+        // render author and time
+        let author = `{{ $post->user->name }}`
+        let created_at = `{{ $post->created_at->diffForHumans() }}`
+        $("#post_author_and_time_published").text(`By ${author}, published ${created_at}`)
+
+        // render description
         let desc = `{!! $post->description !!}`
         $('#content').html(marked.parse(desc))
-
-        let created_at = `{{ $post->created_at->diffForHumans() }}`
-
-        $("#created_at").text(`Published in ${created_at}`)
     </script>
 </x-guest-layout>

@@ -94,7 +94,7 @@
                     let html = ``
 
                     posts.data.forEach(post => {
-                        html += `<div id="post_number_${post.slug}" class="max-w-lg mx-auto bg-white lg:border lg:rounded lg:mb-3">`+postHeader(post.slug)+postImage(post.filename)+postUtilities(post.slug)+postText(post.description, post.slug)+`</div>`
+                        html += `<div id="post_number_${post.slug}" class="max-w-lg mx-auto bg-white lg:border lg:rounded lg:mb-3">`+postHeader(post.slug)+postImage(post.filename)+postUtilities(post.slug)+postText(post.summary, post.slug)+`</div>`
                     })
 
                     $("#content").html(html)

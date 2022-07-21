@@ -19,6 +19,8 @@ return new class extends Migration
             $table->foreignIdFor(User::class);
             $table->string('slug')->unique();
             $table->string('filename');
+            $table->string('title');
+            $table->string('summary')->default('');
             $table->text('description')->nullable();
             $table->timestamps();
         });
