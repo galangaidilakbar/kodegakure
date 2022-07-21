@@ -1,7 +1,5 @@
 <x-guest-layout>
     <form>
-        @csrf
-
         <x-top-navigations :header="__('Create Post')"></x-top-navigations>
 
         <main class="container min-h-screen lg:my-5">
@@ -16,8 +14,8 @@
                     </ul>
                 </div>
 
-                <div id="success_message" class="hidden bg-green-100 text-green-700 px-4 py-2 rounded-lg mb-3">
-                    <span class="capitalize"></span>
+                <div id="success_message" class="hidden bg-green-100 text-green-700 px-4 py-2 rounded-lg mb-3 capitalize flex justify-center items-center space-x-2">
+
                 </div>
 
                 <div class="mb-3">
@@ -50,42 +48,33 @@
         const endpoint = `{{ route('posts.index') }}`;
 
         const token = window.localStorage.getItem('tokens')
-        const user_id = JSON.parse(window.localStorage.getItem('user'))
+        const user = JSON.parse(window.localStorage.getItem('user'))
 
         if (token === null) {
             $("#store").removeClass('bg-blue-500 hover:bg-blue-600').addClass('bg-gray-500 cursor-not-allowed').prop('disabled', true)
+            $("#title").addClass('cursor-not-allowed').prop('disabled', true)
+            $("#summary").addClass('cursor-not-allowed').prop('disabled', true)
             $('#filename').addClass('cursor-not-allowed').prop('disabled', true)
             $('#description').addClass('cursor-not-allowed').prop('disabled', true)
         }
 
+        const loadingSpinner = `<div class="border-4 border-white border-t-4 border-t-green-500 rounded-full w-6 h-6 animate-spin"></div>`
+
         $('form').submit(event => {
             event.preventDefault();
             $("#store").addClass('cursor-not-allowed').prop('disabled', true)
-            $("#success_message").toggleClass('hidden')
-            $("#success_message span").text('Uploading...')
+            $("#success_message").toggleClass('hidden').html(`${loadingSpinner}<span>uploading...</span>`)
 
-            const formData = new FormData;
-            formData.append('user_id', user_id.id)
-            formData.append('title', $("#title").val())
-            formData.append('summary', $("#summary").val())
-            formData.append('filename', $('#filename')[0].files[0]);
-            formData.append('description', $('#description').val());
-
-            const headers = {
-                'Content-Type': 'multipart/form-data',
-                'Accept' : 'application/json',
-                'Authorization': `Bearer ${window.localStorage.getItem('tokens')}`
-            };
-
-            axios.post(endpoint, formData, {
-                headers
+            axios.post(endpoint, data(), {
+                headers: headers()
             })
                 .then(response => {
-                    console.log(response)
                     if (response.status === 201){
-                        $("#success_message span").text(response.data.message)
-                        $('#filename').val('')
-                        $('#description').val('')
+                        $("#success_message").html(`${response.data.message} <span><svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-700" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" /></svg></span>`);
+                        $("#title").val('');
+                        $("#summary").val('');
+                        $('#filename').val('');
+                        $('#description').val('');
 
                         window.setTimeout(() => {
                             window.location.href = `{{ route('index') }}`
@@ -113,5 +102,25 @@
                     $("#store").removeClass('cursor-not-allowed').prop('disabled', false)
                 })
         })
+
+        function data()
+        {
+            const data = new FormData;
+            data.append('user_id', user.id);
+            data.append('title', $("#title").val());
+            data.append('summary', $("#summary").val());
+            data.append('filename', $('#filename')[0].files[0]);
+            data.append('description', $('#description').val());
+            return data;
+        }
+
+        function headers()
+        {
+            return {
+                'Content-Type': 'multipart/form-data',
+                'Accept' : 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
     </script>
 </x-guest-layout>
