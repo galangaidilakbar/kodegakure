@@ -94,7 +94,7 @@
                     let html = ``
 
                     posts.data.forEach(post => {
-                        html += `<div id="post_number_${post.slug}" class="max-w-lg mx-auto bg-white lg:border lg:rounded lg:mb-3">`+postHeader(post.slug)+postImage(post.filename)+postUtilities(post.slug)+postText(post.summary, post.slug)+`</div>`
+                        html += `<div id="post_number_${post.slug}" class="max-w-lg mx-auto bg-white lg:border lg:rounded lg:mb-3">`+postHeader(post.slug, post.created_at)+postImage(post.filename)+postUtilities(post.slug)+postText(post.summary, post.slug)+`</div>`
                     })
 
                     $("#content").html(html)
@@ -102,14 +102,15 @@
                     $("#loading_spinner").remove()
                 }
 
-                function postHeader(slug) {
+                function postHeader(slug, created_at) {
+                    let time = new Date(created_at).toISOString().split('T')[0]
                     return `
                             <div class="relative">
                                 <div class="flex justify-between items-center px-4 py-3">
                                     <div class="flex space-x-3 items-center">
                                         <img src="${PROFILE_PICTURE_URL}" alt="Hokage" class="w-10 h-10 rounded-full ring ring-rose-500/30 ring-offset-2">
                                         <p class="text-sm font-semibold">Galang Aidil Akbar
-                                            <span class="block font-normal text-xs text-gray-500">Konoha</span>
+                                            <span class="block font-normal text-xs text-gray-500">${time}</span>
                                         </p>
                                     </div>
 
