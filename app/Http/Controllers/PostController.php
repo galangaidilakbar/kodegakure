@@ -104,10 +104,12 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $request->validate([
+            'title' => ['required', 'string'],
+            'summary' => ['string'],
             'description' => ['required', 'string']
         ]);
 
-        $post->update($request->only('description'));
+        $post->update($request->only(['title', 'summary', 'description']));
 
         $res = [
             'status' => true,
@@ -115,7 +117,7 @@ class PostController extends Controller
             'message' => 'post updated successfully'
         ];
 
-        return response($res, 200);
+        return response()->json($res, 201);
     }
 
     /**
