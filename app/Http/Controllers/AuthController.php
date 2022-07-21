@@ -30,7 +30,12 @@ class AuthController extends Controller
             ]);
         }
 
-        return $user->createToken('kodegakure')->plainTextToken;
+        $res = [
+            'user' => $user,
+            'tokens' => $user->createToken('kodegakure')->plainTextToken
+        ];
+
+        return response()->json($res, 200);
     }
 
     public function destroy()

@@ -94,6 +94,7 @@
                 .then(response => {
                     $("#lg_logout").hide()
                     window.localStorage.removeItem('tokens');
+                    window.localStorage.removeItem('user');
                     window.location.href = `{{ route('index') }}`
                 })
                 .catch(error => {

@@ -40,6 +40,7 @@
         const endpoint = `{{ route('posts.index') }}`;
 
         const token = window.localStorage.getItem('tokens')
+        const user_id = JSON.parse(window.localStorage.getItem('user'))
 
         if (token === null) {
             $("#store").removeClass('bg-blue-500 hover:bg-blue-600').addClass('bg-gray-500 cursor-not-allowed').prop('disabled', true)
@@ -56,6 +57,7 @@
             $("#success_message span").text('Uploading...')
 
             const formData = new FormData;
+            formData.append('user_id', user_id.id)
             formData.append('filename', $('#filename')[0].files[0]);
             formData.append('description', $('#description').val());
 

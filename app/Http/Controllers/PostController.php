@@ -43,6 +43,7 @@ class PostController extends Controller
     public function store(Request $request): \Illuminate\Http\Response
     {
         $request->validate([
+            'user_id' => ['required'],
             'filename' => ['required', 'image'],
             'description' => ['string']
         ]);
@@ -52,6 +53,7 @@ class PostController extends Controller
         $file->storeAs('public/images', $filename);
 
         $post = Post::create([
+            'user_id' => $request->input('user_id'),
             'slug' => Str::random(7),
             'filename' => $filename,
             'description' => $request->input('description')

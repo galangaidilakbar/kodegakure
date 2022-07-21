@@ -78,8 +78,10 @@
 
             axios.post(endpoint, formData, options)
                 .then((response) => {
-                    sanctumToken = response.data
+                    sanctumToken = response.data.tokens
+                    const user = JSON.stringify(response.data.user)
                     window.localStorage.setItem('tokens', sanctumToken)
+                    window.localStorage.setItem('user', user)
 
                     window.setTimeout(() => {
                         window.location.href = `{{ route('index') }}`
