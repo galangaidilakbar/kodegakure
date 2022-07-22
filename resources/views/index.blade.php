@@ -133,7 +133,7 @@
                                         </li>
                                     </ul>
                                     <div class="py-1">
-                                        <button class="w-full text-left px-4 py-2 bg-red-50 text-red-700 text-sm" onclick="destroy('${slug}')">Delete</button>
+                                        <button class="w-full text-left px-4 py-2 bg-red-50 text-red-700 text-sm" onclick="return confirm('Are u sure? ') ? destroy('${slug}') : ''">Delete</button>
                                     </div>
                                 </div>
                             </div>
