@@ -2,5 +2,5 @@
   deployment:
     tasks:
       - export DEPLOYPATH=/home/kodegaku/public_html/
-      - /bin/npm run build
-      - /bin/cp -R kodegakure $DEPLOYPATH
+      - npm run build
+      - cp -R /home/kodegaku/repositories/kodegakure $DEPLOYPATH
