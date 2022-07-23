@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Intervention\Image\Facades\Image;
 
 class PostController extends Controller
 {
@@ -51,8 +52,9 @@ class PostController extends Controller
         ]);
 
         $file = $request->file('filename');
-        $filename = $file->hashName();
-        $file->storeAs('public/images', $filename);
+        $img = Image::make($file)->encode('webp')->fit(1080);
+        $filename = config('app.name').'-posts'.'-'.Str::random('10').time().'.webp';
+        $img->save(storage_path('app/public/images/').$filename);
 
         $post = Post::create([
             'user_id' => $request->input('user_id'),

@@ -143,7 +143,7 @@
                 function postImage(filename) {
                     return `
                         <div class="my-3">
-                            <img class="object-cover max-w-full mx-auto" src="${POST_IMAGE_URL + '/' + filename}" alt="${filename}" >
+                            <img class="object-cover max-w-full mx-auto" width="1080" height="1080" src="${POST_IMAGE_URL + '/' + filename}" alt="${filename}" >
                         </div>
                     `
                 }
