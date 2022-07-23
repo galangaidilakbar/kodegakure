@@ -25,6 +25,7 @@
     <script>
         // dynamically page title
         document.title = `{{ $post->title }} - {{ config('app.name') }}`
+        $("head").append(`<meta name="description" content="{{ $post->summary }}">`)
 
         // change text button store to share
         $("#store").text('Share')

@@ -114,7 +114,7 @@
                                         </p>
                                     </div>
 
-                                    <button onclick="postHeaderOptions('${slug}')">
+                                    <button onclick="postHeaderOptions('${slug}')" aria-label="Toggle Options">
                                         ${heroIcons.outline.dotsVertical}
                                     </button>
                                 </div>
@@ -152,11 +152,11 @@
                     return `
                             <div class="px-4 flex justify-between items-center">
                                 <div class="flex space-x-3 items-center">
-                                    <button id="post_utilities_love_${slug}" onclick="postUtilitiesLove(this.id)">${heroIcons.outline.love}</button>
-                                    <button onclick="console.log('chat clicked')">${heroIcons.outline.chat}</button>
-                                    <button onclick="console.log('paper clicked')">${heroIcons.outline.paper}</button>
+                                    <button id="post_utilities_love_${slug}" onclick="postUtilitiesLove(this.id)" aria-label="Toggle like">${heroIcons.outline.love}</button>
+                                    <button onclick="console.log('chat clicked')" aria-label="Toggle comment">${heroIcons.outline.chat}</button>
+                                    <button onclick="console.log('paper clicked')" aria-label="Toggle share">${heroIcons.outline.paper}</button>
                                 </div>
-                                <button id="post_utilities_bookmark_${slug}" onclick="postUtilitiesBookmark(this.id)">${heroIcons.outline.bookmark}</button>
+                                <button id="post_utilities_bookmark_${slug}" onclick="postUtilitiesBookmark(this.id)" aria-label="Toggle bookmark">${heroIcons.outline.bookmark}</button>
                             </div>
                             `
                 }
