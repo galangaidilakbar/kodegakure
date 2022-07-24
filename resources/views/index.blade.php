@@ -104,6 +104,41 @@
 
                 function postHeader(slug, created_at) {
                     let time = new Date(created_at).toISOString().split('T')[0]
+                    let options = ``
+                    if (token === null)
+                    {
+                        options = `<ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Like</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Share</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Comment</a>
+                                        </li>
+                                    </ul>
+                                    <div class="py-1">
+                                        <a href="#" class="block px-4 py-2 bg-red-50 text-red-700 text-sm">Report</a>
+                                    </div>`
+                    } else {
+                        options = `<ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
+                                        <li>
+                                            <a href="${POST_WEB_URL+'/'+slug+'/edit'}"
+                                               class="block px-4 py-2 hover:bg-gray-100">Edit</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Earnings</a>
+                                        </li>
+                                    </ul>
+                                    <div class="py-1">
+                                        <button class="w-full text-left px-4 py-2 bg-red-50 text-red-700 text-sm" onclick="return confirm('Are u sure? ') ? destroy('${slug}') : ''">Delete</button>
+                                    </div>`
+                    }
+
                     return `
                             <div class="relative">
                                 <div class="flex justify-between items-center px-4 py-3">
@@ -120,21 +155,7 @@
                                 </div>
 
                                 <div id="kg_options_${slug}" class="hidden absolute z-10 top-14 right-8 bg-white divide-y divide-gray-100 rounded shadow-md w-44">
-                                    <ul class="py-1 text-sm text-gray-700" aria-labelledby="dropdownInformationButton">
-                                        <li>
-                                            <a href="${POST_WEB_URL+'/'+slug+'/edit'}"
-                                               class="block px-4 py-2 hover:bg-gray-100">Edit</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Settings</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" class="block px-4 py-2 hover:bg-gray-100">Earnings</a>
-                                        </li>
-                                    </ul>
-                                    <div class="py-1">
-                                        <button class="w-full text-left px-4 py-2 bg-red-50 text-red-700 text-sm" onclick="return confirm('Are u sure? ') ? destroy('${slug}') : ''">Delete</button>
-                                    </div>
+                                    ${options}
                                 </div>
                             </div>
                             `
