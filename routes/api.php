@@ -18,11 +18,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::apiResource('/posts', \App\Http\Controllers\PostController::class);
-
 // Public API
 Route::get('/posts', [\App\Http\Controllers\PostController::class, 'index'])->name('posts.index');
 Route::post('/login', [\App\Http\Controllers\AuthController::class, 'store'])->name('authentication');
+Route::get('/search', [\App\Http\Controllers\PostController::class, 'search'])->name('search');
 
 // Private API
 Route::middleware('auth:sanctum')->group(function (){

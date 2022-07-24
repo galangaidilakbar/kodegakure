@@ -130,8 +130,20 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-//        $post->delete();
         Storage::delete('public/images/'.$post->filename);
         return $post->delete();
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->input('q') === null)
+        {
+            return null;
+        } else {
+            $result = Post::where('title', 'like', '%' . $request->input('q') . '%')->get();
+            return response()->json([
+                'result' => $result
+            ]);
+        }
     }
 }

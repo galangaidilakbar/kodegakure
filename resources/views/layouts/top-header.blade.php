@@ -4,20 +4,32 @@
             <div class="flex justify-between items-center">
                 <a href="{{ route('index') }}" class="font-semibold text-2xl">{{ config('app.name') }}</a>
 
-                <form action="" method="get" class="hidden lg:block">
-                    <label class="relative block">
-                        <span class="sr-only">Search</span>
-                        <span class="absolute inset-y-0 left-0 flex items-center pl-3">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-gray-400" viewBox="0 0 20 20" fill="currentColor">
-                              <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                            </svg>
-                        </span>
-                        <input class="placeholder:text-gray-400 block bg-gray-100 w-full border-none rounded-md py-2 pl-10 pr-3 shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:ring-2 sm:text-sm" placeholder="Search" type="text" name="search"/>
-                    </label>
+                <div class="hidden lg:block flex-1">
+                    <form class="max-w-xs mx-auto">
+                        <label class="relative block">
+                            <span class="sr-only">Search</span>
+                            <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-gray-400"
+                                                 viewBox="0 0 20 20" fill="currentColor">
+                                              <path fill-rule="evenodd"
+                                                    d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                                                    clip-rule="evenodd"/>
+                                            </svg>
+                                        </span>
+                            <input
+                                class="placeholder:text-gray-400 block bg-gray-100 w-full border-none rounded-md py-2 pl-10 pr-3 shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:ring-2 sm:text-sm"
+                                placeholder="Search" type="text" name="search"/>
+                        </label>
+                    </form>
+                        <div class="relative max-w-sm mx-auto">
+                            <div class="hidden absolute bg-white border border-gray-200 w-full mt-3 z-10 rounded max-h-64 overflow-y-scroll"
+                                 id="search_result">
 
-                </form>
+                            </div>
+                        </div>
+                </div>
 
-                <div class="hidden lg:flex lg:space-x-2">
+                <div class="hidden lg:flex lg:space-x-6">
                     <button id="lg_home">
                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 {{ request()->routeIs('index') ? 'stroke-blue-500' : '' }}" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -52,3 +64,63 @@
         </div>
     </div>
 </div>
+
+<script src="{{ asset('js/jquery.min.js') }}"></script>
+<script src="{{ asset('js/axios.min.js') }}"></script>
+
+<script>
+    const search = $("input[name=search]")
+    const searchEndpoint = `{{ route('search') }}/?q=`
+
+    search.keyup(() => {
+        $("#search_result").removeClass('hidden').html(`
+                                <div class="flex justify-center items-center space-x-2 text-sm px-4 py-2.5">
+                                    <div
+                                        class="border-4 border-gray-100 border-t-4 border-t-gray-300 rounded-full w-6 h-6 animate-spin"></div>
+                                    <span class="text-gray-500">Searching...</span>
+                                </div>`)
+
+
+        axios.get(searchEndpoint+search.val())
+            .then(response => {
+                if (response.data.result.length === 0)
+                {
+                    $("#search_result").html(`
+                                <div class="flex justify-center text-gray-500 text-sm px-4 py-2.5">
+                                    🧐 Post not found
+                                </div>`)
+                }
+
+                else {
+                    let html = ``
+                    for (const resultElement of response.data.result) {
+                        html += `
+                            <div class="flex items-center space-x-4 pb-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50" onclick="show('${resultElement.slug}')">
+                                <div>
+                                    <img src="${POST_IMAGE_URL+ '/' + resultElement.filename}" alt="" class="w-10 h-10 rounded-full mx-auto" width="40" height="40">
+                                </div>
+                                <div class="w-56">
+                                    <p class="font-semibold text-base text-gray-900">${resultElement.title}</p>
+                                    <p class="block text-sm text-gray-500 truncate">${resultElement.summary}</p>
+                                </div>
+                            </div>`
+                    }
+
+                    $("#search_result").html(html)
+                }
+            })
+            .catch(error => {
+                $("#search_result").addClass('hidden')
+            })
+    })
+
+    window.onclick = function ()
+    {
+        if (! $("#search_result").hasClass('hidden'))
+        {
+            $("#search_result").addClass('hidden')
+            search.val('')
+        }
+
+    }
+</script>
