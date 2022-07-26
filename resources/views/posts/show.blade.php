@@ -9,8 +9,16 @@
                 <span class="text-sm text-gray-500" id="post_author_and_time_published"></span>
             </div>
 
-            <div class="mb-3">
-                <img class="object-cover lg:rounded" src="{{ asset('storage/images/' . $post->filename) }}" alt="{{ $post->filename }}">
+            <div class="splide mb-3" role="group" aria-label="Splide Basic HTML Example">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        @foreach($post->filename as $file)
+                            <li class="splide__slide">
+                                <img class="object-cover lg:rounded" src="{{ asset('storage/images/' . $file) }}" alt="{{ $file }}">
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
             </div>
 
             <div class="px-4 py-2.5 mb-3 selection:bg-fuchsia-300 selection:text-fuchsia-900">
@@ -23,6 +31,7 @@
     <script src="{{ asset('js/marked.min.js') }}"></script>
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script>
+        new Splide( '.splide' ).mount();
         // dynamically page title
         document.title = `{{ $post->title }} - {{ config('app.name') }}`
         $("head").append(`<meta name="description" content="{{ $post->summary }}">`)

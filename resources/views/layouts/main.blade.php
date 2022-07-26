@@ -10,6 +10,9 @@
 
     <title>{{ config('app.name', 'Laravel') }}</title>
 
+    <script src="{{ asset('js/splide.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('css/splide.min.css') }}">
+
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+Pro:wght@400;600;700&display=swap"
         rel="stylesheet">

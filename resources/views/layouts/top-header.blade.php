@@ -97,7 +97,7 @@
                         html += `
                             <div class="flex items-center space-x-4 pb-3 px-4 py-2.5 cursor-pointer hover:bg-gray-50" onclick="show('${resultElement.slug}')">
                                 <div>
-                                    <img src="${POST_IMAGE_URL+ '/' + resultElement.filename}" alt="" class="w-10 h-10 rounded-full mx-auto" width="40" height="40">
+                                    <img src="${POST_IMAGE_URL+ '/' + JSON.parse(resultElement.filename)[0]}" alt="" class="w-10 h-10 rounded-full mx-auto" width="40" height="40">
                                 </div>
                                 <div class="w-56">
                                     <p class="font-semibold text-base text-gray-900">${resultElement.title}</p>

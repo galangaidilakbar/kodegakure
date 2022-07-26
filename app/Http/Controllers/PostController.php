@@ -47,21 +47,28 @@ class PostController extends Controller
             'user_id' => ['required'],
             'title' => ['required', 'string'],
             'summary' => ['string'],
-            'filename' => ['required', 'image'],
+            'filename' => ['required'],
+            'filename.*' => ['image'],
             'description' => ['required', 'string']
         ]);
 
-        $file = $request->file('filename');
-        $img = Image::make($file)->encode('webp')->fit(1080);
-        $filename = config('app.name').'-posts'.'-'.Str::random('10').time().'.webp';
-        $img->save(storage_path('app/public/images/').$filename);
+        $data = array();
+
+        if ($request->has('filename')) {
+            foreach ($request->filename as $image) {
+                $img = Image::make($image)->encode('webp')->fit(1080);
+                $filename = config('app.name') . '-posts' . '-' . Str::random('10') . '-' .time() . '.webp';
+                $img->save(storage_path('app/public/images/') . $filename);
+                $data[] = $filename;
+            }
+        }
 
         $post = Post::create([
             'user_id' => $request->input('user_id'),
             'title' => $request->input('title'),
-            'slug' => Str::of($request->input('title') . Str::random(7))->slug('-'),
+            'slug' => Str::of($request->input('title') . '-' . Str::random(7))->slug('-'),
             'summary' => $request->input('summary'),
-            'filename' => $filename,
+            'filename' => json_encode($data),
             'description' => $request->input('description')
         ]);
 
@@ -82,6 +89,7 @@ class PostController extends Controller
      */
     public function show(Post $post)
     {
+        $post->filename = json_decode($post->filename);
         return view('posts.show', ['post' => $post]);
     }
 
@@ -130,14 +138,15 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        Storage::delete('public/images/'.$post->filename);
+        foreach (json_decode($post->filename) as $file){
+            Storage::delete('public/images/' . $file);
+        }
         return $post->delete();
     }
 
     public function search(Request $request)
     {
-        if ($request->input('q') === null)
-        {
+        if ($request->input('q') === null) {
             return null;
         } else {
             $result = Post::where('title', 'like', '%' . $request->input('q') . '%')->get();

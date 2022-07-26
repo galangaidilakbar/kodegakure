@@ -98,6 +98,11 @@
                     })
 
                     $("#content").html(html)
+                    var elms = document.getElementsByClassName( 'splide' );
+
+                    for ( var i = 0; i < elms.length; i++ ) {
+                        new Splide( elms[ i ] ).mount();
+                    }
 
                     $("#loading_spinner").remove()
                 }
@@ -162,9 +167,22 @@
                 }
 
                 function postImage(filename) {
+                    let imgTemplate = ``
+
+                    for (const file of JSON.parse(filename)) {
+                        imgTemplate += `
+                                    <li class="splide__slide">
+                                        <img class="object-cover max-w-full mx-auto" width="1080" height="1080" src="${POST_IMAGE_URL + '/' + file}" alt="${file}">
+                                    </li>`
+                    }
+
                     return `
-                        <div class="my-3">
-                            <img class="object-cover max-w-full mx-auto" width="1080" height="1080" src="${POST_IMAGE_URL + '/' + filename}" alt="${filename}" >
+                        <div class="splide mb-3" role="group" aria-label="Splide Basic HTML Example">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    ${imgTemplate}
+                                </ul>
+                            </div>
                         </div>
                     `
                 }
