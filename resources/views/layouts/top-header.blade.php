@@ -18,7 +18,7 @@
                                         </span>
                             <input
                                 class="placeholder:text-gray-400 block bg-gray-100 w-full border-none rounded-md py-2 pl-10 pr-3 shadow-sm focus:outline-none focus:border-blue-500 focus:ring-blue-500 focus:ring-2 sm:text-sm"
-                                placeholder="Search" type="text" name="search"/>
+                                placeholder="Search" type="text" name="search" autocomplete="off"/>
                         </label>
                     </form>
                         <div class="relative max-w-sm mx-auto">
